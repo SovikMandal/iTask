@@ -4,6 +4,9 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
 import connectDB from "./src/DB/db.js";
+import authRoutes from "./src/routes/auth.routes.js";
+import userRoutes from "./src/routes/user.routes.js";
+import taskRoutes from "./src/routes/task.routes.js";
 
 const app = express();
 dotenv.config();
@@ -25,10 +28,9 @@ app.get("/", (req, res) => {
     res.send("Hello World");
 })
 
-// app.use("/api/auth", authRoutes)
-// app.use("/api/users", userRoutes)
-// app.use("/api/admins", adminRoutes)
-// app.use("/api/tasks", taskRoutes)
+app.use("/api/auth", authRoutes)
+app.use("/api/users", userRoutes)
+app.use("/api/tasks", taskRoutes)
 // app.use("/api/reports", reportRoutes)
 
 export default app;

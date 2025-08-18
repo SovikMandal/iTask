@@ -1,5 +1,10 @@
 import mongoose from "mongoose";   
 
+const todoSchema = new mongoose.Schema({
+    text: { type: String, required: true },
+    isCompleted: { type: Boolean, default: false }
+});
+
 const taskSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -12,14 +17,14 @@ const taskSchema = new mongoose.Schema({
 
     priority: {
         type: String,
-        enum: ["low", "medium", "high"],
-        default: "medium"
+        enum: ["Low", "Medium", "High"],
+        default: "Medium"
     },
 
     status: {
         type: String,
-        enum: ["pending", "in-progress", "completed"],
-        default: "pending"
+        enum: ["Pending", "In Progress", "Completed"],
+        default: "Pending"
     },
 
     dueDate: {
@@ -35,7 +40,6 @@ const taskSchema = new mongoose.Schema({
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true
     },
 
     attachments: [{

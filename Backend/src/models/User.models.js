@@ -14,20 +14,20 @@ const userSchema = new mongoose.Schema({
 
     password: {
         type: String,
-        required: true
+        required: true,
     },
 
     profileImageUrl: {
         type: String,
-        default: null
+        default: " "
     },
 
     role: {
         type: String,
-        enum: ["admin, member"],
+        enum: ["admin", "member"],
         default: "member"
     }
-    
+
 }, {timestamps: true})
 
 const User = mongoose.model("User", userSchema);
