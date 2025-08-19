@@ -1,7 +1,5 @@
-import express from 'express';
 import Task from '../models/Task.models.js';
 import User from '../models/User.models.js';
-import bcrypt from 'bcryptjs';
 
 const getUsers = async (req, res) => {
     try {
