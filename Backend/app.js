@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import path from "path";
+import { fileURLToPath } from "url";
 import connectDB from "./src/DB/db.js";
 import authRoutes from "./src/routes/auth.routes.js";
 import userRoutes from "./src/routes/user.routes.js";
@@ -12,6 +13,9 @@ import reportRoutes from "./src/routes/reports.routes.js";
 const app = express();
 dotenv.config();
 connectDB();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename); 
 
 app.use(
     cors({
@@ -33,5 +37,7 @@ app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/tasks", taskRoutes)
 app.use("/api/reports", reportRoutes)
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 export default app;
