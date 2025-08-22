@@ -10,11 +10,14 @@ import InfoCard from '../../components/InfoCard.jsx';
 import { addThousandsSeparator } from '../../utils/helper.js';
 import { LuArrowRight } from 'react-icons/lu';
 import TaskListTable from '../../components/TaskListTable.jsx';
+import CustomPieChart from '../../components/CustomPieChart.jsx';
+
+const COLORS = ["#8D51FF", "#00B8DB", "#7BCE00"];
 
 const Dashboard = () => {
   useUserAuth();
 
-  const { user } = useUserAuth(UserContext);
+  const { user } = useUserAuth();
 
   const navigate = useNavigate();
 
@@ -22,11 +25,34 @@ const Dashboard = () => {
   const [pieChartData, setPieChartData] = useState([]);
   const [barChartData, setBarChartData] = useState([]);
 
+
+  const prepareChartData = (data) => {
+    const taskDistribution = data?.taskDistribution || null; 
+    const taskPriorityLevel = data?.taskPriorityDistribution || null; 
+
+    const taskDistributionData = [
+      { status: 'Pending', count: taskDistribution?.Pending || 0 },
+      { status: 'In Progress', count: taskDistribution?.In_Progress || 0 },
+      { status: 'Completed', count: taskDistribution?.Completed || 0 },
+    ];
+
+    setPieChartData(taskDistributionData);   
+
+    const taskPriorityLevelData = [
+      { priority: 'High', count: taskPriorityLevel?.High || 0 },
+      { priority: 'Medium', count: taskPriorityLevel?.Medium || 0 },
+      { priority: 'Low', count: taskPriorityLevel?.Low || 0 },
+    ];
+
+    setBarChartData(taskPriorityLevelData);
+  }
+
   const getDashboardData = async () => {
     try {
       const response = await axiosInstance.get(API_PATHS.TASKS.GET_DASHBOARD_DATA);
       if(response.data) {
         setDashboardData(response.data); 
+        prepareChartData(response.data?.charts || null);
       }
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -42,6 +68,7 @@ const Dashboard = () => {
 
     return () => {}
   }, []);
+  
   return (
     <DashboardLayout activeMenu="Dashboard">
       <div className='card my-5'>
@@ -77,6 +104,19 @@ const Dashboard = () => {
       </div>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6 my-4 md:my-6'>
+        <div>
+          <div className='card'>
+            <div className='flex justify-between items-center mb-4'>
+              <h5 className='font-medium'>Task Distribution</h5>
+            </div>
+
+            <CustomPieChart
+              data={pieChartData}
+              colors={COLORS}
+            />
+
+          </div>
+        </div>
         <div className='md:col-span-2'>
           <div className='card'>
             <div className='flex justify-between items-center'>

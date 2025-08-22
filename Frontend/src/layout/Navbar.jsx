@@ -2,29 +2,29 @@ import React, { useState } from 'react'
 import SideMenu from './SideMenu.jsx'
 import { HiOutlineMenu, HiOutlineX } from 'react-icons/hi'
 
-const Navbar = ({activeMenu}) => {
+const Navbar = ({ activeMenu }) => {
   const [openSideMenu, setOpenSideMenu] = useState(false);
 
   return (
-    <div className='flex gap-5 bg-white border border-b border-gray-200/50 backdrop-blur-[2px] py-4 px-7 sticky top-0 z-30'>
-      <button 
-        className='block lg:hidden text-black'
-        onClick={() => {
-          setOpenSideMenu(!openSideMenu);
-        }}> 
-        {openSideMenu ? (
-          <HiOutlineX className="text-2xl"/>
-        ) : (
-          <HiOutlineMenu className="text-2xl"/>
-        )}
-      </button>
+    <div className='flex items-center bg-white border border-b border-gray-200/50 backdrop-blur-[2px] py-4 px-7 sticky top-0 z-30'>
 
       <h2 className='text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'>
         iTask
       </h2>
 
+      <button
+        className='block lg:hidden text-black ml-auto'
+        onClick={() => setOpenSideMenu(!openSideMenu)}
+      >
+        {openSideMenu ? (
+          <HiOutlineX className="text-2xl" />
+        ) : (
+          <HiOutlineMenu className="text-2xl" />
+        )}
+      </button>
+
       {openSideMenu && (
-        <div className='fixed top-[61px] -ml-4 bg-white'>
+        <div className='fixed top-[61px] right-0 bg-white shadow-lg'>
           <SideMenu activeMenu={activeMenu} />
         </div>
       )}
@@ -32,4 +32,4 @@ const Navbar = ({activeMenu}) => {
   )
 }
 
-export default Navbar
+export default Navbar;

@@ -33,19 +33,19 @@ const getTasks = async (req, res) => {
 
         const pendingTasks = await Task.countDocuments({
             ...filter,
-            status: 'pending',
+            status: 'Pending',
             ...(req.user.role !== 'admin' && { assignedTo: req.user._id })
         });
 
         const inProgressTasks = await Task.countDocuments({
             ...filter,
-            status: 'in-progress',
+            status: 'In Progress',
             ...(req.user.role !== 'admin' && { assignedTo: req.user._id })
         });
 
         const completedTasks = await Task.countDocuments({
             ...filter,
-            status: 'completed',
+            status: 'Completed',
             ...(req.user.role !== 'admin' && { assignedTo: req.user._id })
         });
 
@@ -166,7 +166,6 @@ const updateTaskStatus = async (req, res) => {
             return res.status(404).json({ message: 'Task not found' });
         }
 
-        // Ensure assignedTo is an array
         const assignedToArray = Array.isArray(task.assignedTo) ? task.assignedTo : [task.assignedTo];
 
         const isAssigned = assignedToArray.some(
@@ -179,7 +178,7 @@ const updateTaskStatus = async (req, res) => {
 
         task.status = req.body.status || task.status;
 
-        if (task.status === 'completed') {
+        if (task.status === 'Completed') {
             task.todoChecklist.forEach(item => item.isCompleted = true);
             task.progress = 100;
         }
@@ -314,13 +313,11 @@ const getUserDashboardData = async (req, res) => {
             })
         ]);
 
-        // Status distribution
         const taskStatus = ["Pending", "In Progress", "Completed"];
         const taskDistributionRaw = await Task.aggregate([
             { $match: { assignedTo: userId } },
             { $group: { _id: "$status", count: { $sum: 1 } } }
         ]);
-
 
         const taskDistribution = taskStatus.reduce((acc, status) => {
             const formattedKey = status.replace(/\s+/g, '_');
@@ -330,7 +327,6 @@ const getUserDashboardData = async (req, res) => {
         
         taskDistribution["All"] = totalTask;
 
-        // Priority distribution
         const taskPriority = ["High", "Medium", "Low"];
         const taskPriorityDistributionRaw = await Task.aggregate([
             { $match: { assignedTo: userId } },
@@ -341,7 +337,7 @@ const getUserDashboardData = async (req, res) => {
             return acc;
         }, {});
 
-        // Recent tasks (fixed to filter by userId)
+
         const recentTasks = await Task.find({ assignedTo: userId })
             .sort({ createdAt: -1 })
             .limit(10)
