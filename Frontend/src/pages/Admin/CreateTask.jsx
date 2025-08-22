@@ -1,10 +1,11 @@
 import React from 'react'
+import DashboardLayout from '../../layout/DashboardLayout.jsx'
 
 const CreateTask = () => {
   return (
-    <div>
+    <DashboardLayout activeMenu="Create Task">
       CreateTask Page
-    </div>
+    </DashboardLayout>
   )
 }
 
