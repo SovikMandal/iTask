@@ -19,7 +19,9 @@ const Navbar = ({activeMenu}) => {
         )}
       </button>
 
-      <h2 className='text-lg font-medium text-black'>Expense Tracker</h2>
+      <h2 className='text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'>
+        iTask
+      </h2>
 
       {openSideMenu && (
         <div className='fixed top-[61px] -ml-4 bg-white'>
