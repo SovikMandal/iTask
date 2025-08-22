@@ -25,7 +25,7 @@ const CustomPieChart = ({ data, colors }) => {
           ))}
         </Pie>
 
-        <Tooltip content={<CustomTooltip />} />
+        <Tooltip content={<CustomTooltip data={data}/>} />
 
         <Legend content={<CustomLegend />}/>
       </PieChart>

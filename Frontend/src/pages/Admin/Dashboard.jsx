@@ -11,6 +11,7 @@ import { addThousandsSeparator } from '../../utils/helper.js';
 import { LuArrowRight } from 'react-icons/lu';
 import TaskListTable from '../../components/TaskListTable.jsx';
 import CustomPieChart from '../../components/CustomPieChart.jsx';
+import CustomBarChart from '../../components/CustomBarChart.jsx';
 
 const COLORS = ["#8D51FF", "#00B8DB", "#7BCE00"];
 
@@ -68,7 +69,7 @@ const Dashboard = () => {
 
     return () => {}
   }, []);
-  
+
   return (
     <DashboardLayout activeMenu="Dashboard">
       <div className='card my-5'>
@@ -113,6 +114,19 @@ const Dashboard = () => {
             <CustomPieChart
               data={pieChartData}
               colors={COLORS}
+            />
+
+          </div>
+        </div>
+
+        <div>
+          <div className='card'>
+            <div className='flex justify-between items-center mb-4'>
+              <h5 className='font-medium'>Task Priority Levels</h5>
+            </div>
+
+            <CustomBarChart
+              data={barChartData}
             />
 
           </div>
