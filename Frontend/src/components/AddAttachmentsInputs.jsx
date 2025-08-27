@@ -24,7 +24,7 @@ const AddAttachmentsInputs = ({ attachments, setAttachments }) => {
           key={item}
           className='flex justify-between bg-gray-50 border border-gray-200 px-3 py-2 rounded-md mb-3 mt-2'
         >
-            <div className='flex-1 flex items-center gap-3 border border-gray-200'>
+            <div className='flex-1 flex items-center gap-3'>
                 <LuPaperclip className='text-gray-400' />
                 <p className='text-xs text-black'>{item}</p>
             </div>
@@ -47,7 +47,7 @@ const AddAttachmentsInputs = ({ attachments, setAttachments }) => {
               value={option}
               onChange={({target}) => setOption(target.value)}
               placeholder='Add a new attachment'
-              className='w-full text-[13px] text-black outline-none bg-white border border-gray-200 px-3 py-2 rounded-md'
+              className='w-full text-[13px] text-black outline-none bg-white px-3 py-2'
             />
         </div>
 
