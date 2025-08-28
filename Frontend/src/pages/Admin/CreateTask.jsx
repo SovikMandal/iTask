@@ -43,11 +43,87 @@ const CreateTask = () => {
     }));
   };
 
-  const createTask = async () => {};
+  const clearData = () => {
+    setTaskData({
+      title: "",
+      description: "",
+      priority: "Low",
+      dueDate: null,
+      assignedTo: [],
+      todoChecklist: [],
+      attachments: [],
+    });
+    setSelectedUsers([]);
+    setTodoList([]);
+    setAttachments([]);
+  };
+
+  const createTask = async () => {
+    setLoading(true);
+    try {
+      const todoList = taskData.todoChecklist.map((item) => ({
+        text: item,
+        completed: false,
+      }));
+
+      const response = await axiosInstance.post(API_PATHS.TASKS.CREATE_TASK,{
+        ...taskData,
+        dueDate: new Date(taskData.dueDate).toISOString(),
+        todoChecklist: todoList,
+      });
+
+      toast.success("Task created successfully");
+      clearData();
+    } catch (error) {
+      console.error("Error creating task:", error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const updateTask = async () => {};
 
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+        setError(null);
+
+    if(!taskData.title.trim()) {
+      setError("Task title is required");
+      return;
+    }
+
+    if(!taskData.description.trim()) {
+      setError("Task description is required");
+      return;
+    }
+
+    if(!taskData.dueDate) {
+      setError("Due date is required");
+      return;
+    }
+
+    if(taskData.assignedTo.length === 0) {
+      setError("At least one user must be assigned");
+      return;
+    }
+
+    if(taskData.todoChecklist?.length === 0) {
+      setError("At least one todo item is required");
+      return;
+    }
+
+    if(taskData.attachments?.length === 0) {
+      setError("At least one attachment is required");
+      return;
+    }
+
+    if(taskId) {
+      await updateTask();
+      return;
+    } else {
+      await createTask();
+    }
+  };
 
   const getTaskDetailsById = async () => {};
   
