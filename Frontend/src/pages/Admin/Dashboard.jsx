@@ -61,7 +61,7 @@ const Dashboard = () => {
   };
 
   const onSeeMore = () => {
-    navigate('/admin/tasks');
+    navigate('/admin/manage-tasks');
   };
 
   useEffect(() => {
