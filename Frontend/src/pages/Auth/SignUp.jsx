@@ -61,7 +61,7 @@ const SignUp = () => {
       const { token, role } = response.data;
 
       if(token) {
-        localStorage.setItem("token", token);
+        localStorage.setItem("accessToken", token);
         updateUser(response.data);
 
         if(role === "admin") {

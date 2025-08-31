@@ -9,6 +9,7 @@ import authRoutes from "./src/routes/auth.routes.js";
 import userRoutes from "./src/routes/user.routes.js";
 import taskRoutes from "./src/routes/task.routes.js";
 import reportRoutes from "./src/routes/reports.routes.js";
+import uploadRoutes from "./src/routes/upload.routes.js";
 
 const app = express();
 dotenv.config();
@@ -37,6 +38,7 @@ app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/tasks", taskRoutes)
 app.use("/api/reports", reportRoutes)
+app.use('/api', uploadRoutes);
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

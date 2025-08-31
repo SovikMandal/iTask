@@ -1,4 +1,5 @@
 import multer from "multer";
+import { uploadToCloudinary } from "../services/cloudinary.service.js";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -8,7 +9,6 @@ const storage = multer.diskStorage({
     cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
-
 
 const fileFilter = (req, file, cb) => {
   const allowedTypes = [
@@ -30,4 +30,15 @@ const upload = multer({
   fileFilter,
 });
 
-export { upload };
+const uploadAndCloudinary = async (req, res, next) => {
+  try {
+    if (!req.file) return next();
+    const result = await uploadToCloudinary(req.file.path);
+    req.file.cloudinaryUrl = result.secure_url;
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { upload, uploadAndCloudinary };
