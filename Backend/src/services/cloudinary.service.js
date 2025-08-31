@@ -1,4 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
+import fs from 'fs';
 
 cloudinary.config({ 
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -6,13 +7,16 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-export const uploadToCloudinary = async (filePath, publicId = null) => {
+export const uploadToCloudinary = async (filePath) => {
     try {
-        const options = {};
-        if (publicId) options.public_id = publicId;
-        const result = await cloudinary.uploader.upload(filePath, options);
+        if (!filePath) return null;
+        const result = await cloudinary.uploader.upload(filePath, {
+            resource_type: "auto"
+        });
+        console.log("Cloudinary upload result:", result.url);
         return result;
     } catch (error) {
+        fs.unlinkSync(filePath);
         throw error;
     }
 };
