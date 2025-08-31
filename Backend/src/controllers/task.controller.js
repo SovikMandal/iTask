@@ -193,22 +193,23 @@ const updateTaskStatus = async (req, res) => {
 
 const updateTaskChecklist = async (req, res) => {
     try {
-        const {todoChecklist} = req.body;
+        const { todoChecklist } = req.body;
         const task = await Task.findById(req.params.id);
         if (!task) {
             return res.status(404).json({ message: 'Task not found' });
         }
 
-        const assignedToArray = Array.isArray(task.assignedTo) ? task.assignedTo.map(String) : [String(task.assignedTo)];
+        const assignedToArray = Array.isArray(task.assignedTo)
+        ? task.assignedTo.map(id => String(id))
+        : [String(task.assignedTo)];
 
-        if(!assignedToArray.includes(req.user._id) && req.user.role !== 'admin') {
+        if (!assignedToArray.includes(String(req.user._id)) && req.user.role !== 'admin') {
             return res.status(403).json({ message: 'Not authorized to update this task' });
         }
 
         task.todoChecklist = todoChecklist;
 
         const completedCount = task.todoChecklist.filter(item => item.isCompleted).length;
-
         const totalItems = task.todoChecklist.length;
         task.progress = totalItems > 0 ? Math.round((completedCount / totalItems) * 100) : 0;
 
@@ -228,7 +229,7 @@ const updateTaskChecklist = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
-}
+};
 
 const getDashboardData = async (req, res) => {
     try {
