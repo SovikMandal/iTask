@@ -2,7 +2,7 @@ import React from 'react'
 import UI_IMG from '../assets/images/auth-img.png';
 
 const AuthLayout = ({ children }) => {
-  return <div className='flex overflow-hidden'>
+  return <div className='flex md:overflow-hidden lg:overflow-hidden'>
     <div className='w-screen h-screen md:w-[60vw] px-12 pt-8 pb-12'>
         
         <h2 className='text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'>
